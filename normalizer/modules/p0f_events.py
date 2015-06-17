@@ -37,7 +37,10 @@ class P0fEvents(BaseNormalizer):
         return metadata
 
     def normalize(self, data, channel, submission_timestamp, ignore_rfc1918=True):
-        o_data = json.loads(data)
+        if type(data) is dict:
+            o_data = data
+        else:
+            o_data = json.loads(data)
 
         if ignore_rfc1918 and self.is_RFC1918_addr(o_data['client_ip']):
             return []

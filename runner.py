@@ -57,7 +57,7 @@ def parse_config(config_file):
 
     config['mongo_db'] = parser.get('mongodb', 'database')
     config['mongo_host'] = parser.get('mongodb', 'host')
-    config['mongo_port'] = parser.get('mongodb', 'port')
+    config['mongo_port'] = parser.getint('mongodb', 'port')
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')

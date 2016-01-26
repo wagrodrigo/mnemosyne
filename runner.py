@@ -56,8 +56,8 @@ def parse_config(config_file):
         config['loggly_token'] = parser.get('loggly_log', 'token')
 
     config['mongo_db'] = parser.get('mongodb', 'database')
-    config['mongo_host'] = parser.get('mongodb', 'host')
-    config['mongo_port'] = parser.getint('mongodb', 'port')
+    config['mongo_host'] = parser.get('mongodb', 'host', 0, {'host': '127.0.0.1'})
+    config['mongo_port'] = int(parser.get('mongodb', 'port', 0, {'port': '27017'}))
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')

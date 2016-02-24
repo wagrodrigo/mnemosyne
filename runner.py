@@ -39,7 +39,7 @@ def parse_config(config_file):
     if not os.path.isfile(config_file):
         sys.exit("Could not find configuration file: {0}".format(config_file))
 
-    parser = ConfigParser()
+    parser = ConfigParser({'mongod_host': '127.0.0.1', 'mognod_port': 27017})
     parser.read(config_file)
 
     log_file = None
@@ -55,9 +55,9 @@ def parse_config(config_file):
     if parser.getboolean('loggly_log', 'enabled'):
         config['loggly_token'] = parser.get('loggly_log', 'token')
 
-    config['mongo_db'] = parser.get('mongodb', 'database')
-    config['mongo_host'] = parser.get('mongodb', 'host', 0, {'host': '127.0.0.1'})
-    config['mongo_port'] = int(parser.get('mongodb', 'port', 0, {'port': '27017'}))
+    config['mongo_db'] = parser.get('mongodb', 'mongod_database')
+    config['mongo_host'] = parser.get('mongodb', 'mongod_host')
+    config['mongo_port'] = parser.getint('mongodb', 'mongod_port')
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')

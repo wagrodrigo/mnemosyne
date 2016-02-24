@@ -6,7 +6,7 @@ port = 8181
 [mongodb]
 mongod_host = 127.0.0.1
 mongod_port = 27017
-mongod_database = mnemosyne
+database = mnemosyne
 
 [hpfriends]
 ident =

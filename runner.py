@@ -55,7 +55,7 @@ def parse_config(config_file):
     if parser.getboolean('loggly_log', 'enabled'):
         config['loggly_token'] = parser.get('loggly_log', 'token')
 
-    config['mongo_db'] = parser.get('mongodb', 'mongod_database')
+    config['mongo_db'] = parser.get('mongodb', 'database')
     config['mongo_host'] = parser.get('mongodb', 'mongod_host')
     config['mongo_port'] = parser.getint('mongodb', 'mongod_port')
 

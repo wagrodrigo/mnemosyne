@@ -39,7 +39,7 @@ def parse_config(config_file):
     if not os.path.isfile(config_file):
         sys.exit("Could not find configuration file: {0}".format(config_file))
 
-    parser = ConfigParser({'mongod_host': '127.0.0.1', 'mognod_port': 27017})
+    parser = ConfigParser({'mongod_host': '127.0.0.1', 'mognod_port': 27017, 'mongo_auth': False})
     parser.read(config_file)
 
     log_file = None
@@ -58,6 +58,12 @@ def parse_config(config_file):
     config['mongo_db'] = parser.get('mongodb', 'database')
     config['mongo_host'] = parser.get('mongodb', 'mongod_host')
     config['mongo_port'] = parser.getint('mongodb', 'mongod_port')
+    
+    if parser.getboolean('mongodb', 'mongo_auth'):
+        config['mongo_auth'] = True
+        config['mongo_user'] = parser.get('mongodb', 'mongod_user')
+        config['mongo_password'] = parser.get('mongodb', 'mongod_password')
+        config['mongo_auth_mechanism'] = parser.get('mongodb', 'mongo_auth_mechanism')
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')
@@ -115,7 +121,10 @@ if __name__ == '__main__':
 
     greenlets = {}
 
-    db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'])
+    if config['mongo_auth']:
+        db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'], c['mongo_user'], c['mongo_password'], c['mongo_auth_mechanism'])
+    else:
+        db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'])
 
     webapi = None
     hpfriends_puller = None

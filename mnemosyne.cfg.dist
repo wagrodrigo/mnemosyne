@@ -7,6 +7,10 @@ port = 8181
 mongod_host = 127.0.0.1
 mongod_port = 27017
 database = mnemosyne
+mongo_auth = False
+mongo_user = user
+mongo_password = password
+mongo_auth_mechanism = SCRAM-SHA-1
 
 [hpfriends]
 ident =

@@ -59,6 +59,8 @@ def parse_config(config_file):
     config['mongo_host'] = parser.get('mongodb', 'mongod_host')
     config['mongo_port'] = parser.getint('mongodb', 'mongod_port')
     
+    
+    config['mongo_auth'] = False
     if parser.getboolean('mongodb', 'mongo_auth'):
         config['mongo_auth'] = True
         config['mongo_user'] = parser.get('mongodb', 'mongod_user')

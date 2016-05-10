@@ -20,7 +20,7 @@ from normalizer.modules.basenormalizer import BaseNormalizer
 
 
 class KippoEvents(BaseNormalizer):
-    channels = ('kippo.sessions',)
+    channels = ('kippo.sessions', 'cowrie.sessions',)
 
     def normalize(self, data, channel, submission_timestamp, ignore_rfc1918=True):
         o_data = self.parse_record_data(data)

@@ -29,7 +29,7 @@ class ReportGenerator:
 
     def __init__(self, mongo_host, mongo_port, database_name, mongo_user=None, mongo_password=None, mongo_auth_mechanism=None):
         logger.info('Connecting to mongodb, using "{0}" as database.'.format(database_name))
-        if mongo_user not None:
+        if mongo_user is not None:
             conn = MongoClient(host=mongo_host, port=mongo_port, w=0)
             self.db = conn[database_name]
             self.db.authenticate(mongo_user, mongo_password, mechanism=mongo_auth_mechanism)

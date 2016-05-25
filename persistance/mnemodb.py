@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 class MnemoDB(object):
     def __init__(self, mongo_host, mongo_port, database_name, mongo_user=None, mongo_password=None, mongo_auth_mechanism=None):
         logger.info('Connecting to mongodb, using "{0}" as database.'.format(database_name))
-        if mongo_user not None:
+        if mongo_user is not None:
             conn = MongoClient(host=mongo_host, port=mongo_port, auto_start_request=False)
             self.rg = ReportGenerator(mongo_host, mongo_port, database_name, mongo_user, mongo_password,mongo_auth_mechanism)
             self.db = conn[database_name]

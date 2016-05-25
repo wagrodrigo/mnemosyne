@@ -61,11 +61,11 @@ def parse_config(config_file):
     
     
     config['mongo_auth'] = False
-    if parser.getboolean('mongodb', 'mongo_auth'):
+    if parser.getboolean('mongodb', 'mongod_auth'):
         config['mongo_auth'] = True
         config['mongo_user'] = parser.get('mongodb', 'mongod_user')
         config['mongo_password'] = parser.get('mongodb', 'mongod_password')
-        config['mongo_auth_mechanism'] = parser.get('mongodb', 'mongo_auth_mechanism')
+        config['mongo_auth_mechanism'] = parser.get('mongodb', 'mongod_auth_mechanism')
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')
@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
     greenlets = {}
 
-    if config['mongo_auth']:
+    if c['mongo_auth']:
         db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'], c['mongo_user'], c['mongo_password'], c['mongo_auth_mechanism'])
     else:
         db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'])

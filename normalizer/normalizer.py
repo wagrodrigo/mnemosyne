@@ -23,6 +23,7 @@ from modules import glastopf_files
 from modules import thug_events
 from modules import thug_files
 from modules import kippo_events
+from modules import cowrie_events
 from modules import dionaea_capture
 from modules import dionaea_binary
 from modules import dionaea_connections

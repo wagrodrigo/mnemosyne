@@ -39,7 +39,7 @@ def parse_config(config_file):
     if not os.path.isfile(config_file):
         sys.exit("Could not find configuration file: {0}".format(config_file))
 
-    parser = ConfigParser({'mongod_host': '127.0.0.1', 'mognod_port': 27017, 'mongo_auth': False})
+    parser = ConfigParser()
     parser.read(config_file)
 
     log_file = None
@@ -56,16 +56,21 @@ def parse_config(config_file):
         config['loggly_token'] = parser.get('loggly_log', 'token')
 
     config['mongo_db'] = parser.get('mongodb', 'database')
-    config['mongo_host'] = parser.get('mongodb', 'mongod_host')
-    config['mongo_port'] = parser.getint('mongodb', 'mongod_port')
-    
-    
-    config['mongo_auth'] = False
-    if parser.getboolean('mongodb', 'mongod_auth'):
-        config['mongo_auth'] = True
-        config['mongo_user'] = parser.get('mongodb', 'mongod_user')
-        config['mongo_password'] = parser.get('mongodb', 'mongod_password')
-        config['mongo_auth_mechanism'] = parser.get('mongodb', 'mongod_auth_mechanism')
+
+    if os.getenv("REMOTE_MONGO"):
+        config['mongo_host'] = os.getenv("MONGO_HOST")
+        config['mongo_port'] = os.getenv("MONGO_PORT")
+
+        config['mongo_auth'] = False
+        if os.getenv("MONGO_AUTH"):
+            config['mongo_auth'] = True
+            config['mongo_user'] = os.getenv("MONGO_USER")
+            config['mongo_password'] = os.getenv("MONGO_PASSWORD")
+            config['mongo_auth_mechanism'] = os.getenv("MONGO_AUTH_MECHANISM")
+    else:
+        config['mongo_auth'] = False
+        config['mongo_host'] = "127.0.0.1"
+        config['mongo_port'] = 27017
 
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')

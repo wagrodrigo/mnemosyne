@@ -57,12 +57,12 @@ def parse_config(config_file):
 
     config['mongo_db'] = parser.get('mongodb', 'database')
 
-    if os.getenv("REMOTE_MONGO"):
+    if os.getenv("REMOTE_MONGO") == "true":
         config['mongo_host'] = os.getenv("MONGO_HOST")
         config['mongo_port'] = os.getenv("MONGO_PORT")
 
         config['mongo_auth'] = False
-        if os.getenv("MONGO_AUTH"):
+        if os.getenv("MONGO_AUTH") == "true":
             config['mongo_auth'] = True
             config['mongo_user'] = os.getenv("MONGO_USER")
             config['mongo_password'] = os.getenv("MONGO_PASSWORD")

@@ -59,7 +59,7 @@ def parse_config(config_file):
 
     if os.getenv("REMOTE_MONGO") == "true":
         config['mongo_host'] = os.getenv("MONGO_HOST")
-        config['mongo_port'] = os.getenv("MONGO_PORT")
+        config['mongo_port'] = int(os.getenv("MONGO_PORT"))
 
         config['mongo_auth'] = False
         if os.getenv("MONGO_AUTH") == "true":

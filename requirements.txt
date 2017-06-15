@@ -1,5 +1,5 @@
 pymongo==2.7.2
-gevent==1.0.1
+gevent==1.0.2
 bottle-mongodb==0.2.1
 bottle-cork==0.6
 git+https://github.com/defnull/bottle/

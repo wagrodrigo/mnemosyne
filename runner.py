@@ -62,6 +62,12 @@ def parse_config(config_file):
     config['hpf_secret'] = parser.get('hpfriends', 'secret')
     config['hpf_port'] = parser.getint('hpfriends', 'port')
     config['hpf_host'] = parser.get('hpfriends', 'host')
+    
+    config['hpftwo_feeds'] = parser.get('hpfriends_two', 'channels').split(',')
+    config['hpftwo_ident'] = parser.get('hpfriends_two', 'ident')
+    config['hpftwo_secret'] = parser.get('hpfriends_two', 'secret')
+    config['hpftwo_port'] = parser.getint('hpfriends_two', 'port')
+    config['hpftwo_host'] = parser.get('hpfriends_two', 'host')
 
     config['webapi_port'] = parser.getint('webapi', 'port')
     config['webapi_host'] = parser.get('webapi', 'host')
@@ -117,6 +123,7 @@ if __name__ == '__main__':
 
     webapi = None
     hpfriends_puller = None
+    hpfriendstwo_puller = None
     normalizer = None
 
     if args.reset:
@@ -131,7 +138,9 @@ if __name__ == '__main__':
     if not args.no_feedpuller:
         logger.info("Spawning hpfriends feed puller.")
         hpfriends_puller = feedpuller.FeedPuller(db, c['hpf_ident'], c['hpf_secret'], c['hpf_port'], c['hpf_host'], c['hpf_feeds'])
+        hpfriendstwo_puller = feedpuller.FeedPuller(db, c['hpftwo_ident'], c['hpftwo_secret'], c['hpftwo_port'], c['hpftwo_host'], c['hpftwo_feeds'])
         greenlets['hpfriends-puller'] = gevent.spawn(hpfriends_puller.start_listening)
+        greenlets['hpfriendstwo-puller'] = gevent.spawn(hpfriendstwo_puller.start_listening)
 
     if not args.no_webapi:
         logger.info("Spawning web api.")

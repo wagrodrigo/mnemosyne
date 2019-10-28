@@ -57,6 +57,21 @@ def parse_config(config_file):
 
     config['mongo_db'] = parser.get('mongodb', 'database')
 
+    if os.getenv("REMOTE_MONGO") == "true":
+        config['mongo_host'] = os.getenv("MONGO_HOST")
+        config['mongo_port'] = int(os.getenv("MONGO_PORT"))
+
+        config['mongo_auth'] = False
+        if os.getenv("MONGO_AUTH") == "true":
+            config['mongo_auth'] = True
+            config['mongo_user'] = os.getenv("MONGO_USER")
+            config['mongo_password'] = os.getenv("MONGO_PASSWORD")
+            config['mongo_auth_mechanism'] = os.getenv("MONGO_AUTH_MECHANISM")
+    else:
+        config['mongo_auth'] = False
+        config['mongo_host'] = "127.0.0.1"
+        config['mongo_port'] = 27017
+
     config['hpf_feeds'] = parser.get('hpfriends', 'channels').split(',')
     config['hpf_ident'] = parser.get('hpfriends', 'ident')
     config['hpf_secret'] = parser.get('hpfriends', 'secret')
@@ -113,7 +128,10 @@ if __name__ == '__main__':
 
     greenlets = {}
 
-    db = mnemodb.MnemoDB(c['mongo_db'])
+    if c['mongo_auth']:
+        db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'], c['mongo_user'], c['mongo_password'], c['mongo_auth_mechanism'])
+    else:
+        db = mnemodb.MnemoDB(c['mongo_host'], c['mongo_port'], c['mongo_db'])
 
     webapi = None
     hpfriends_puller = None

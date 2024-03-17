@@ -34,7 +34,7 @@ class CowrieEvents(BaseNormalizer):
             'source_port': o_data['peerPort'],
             'destination_port': o_data['hostPort'],
             'honeypot': 'cowrie',
-            'protocol': 'ssh',
+            'protocol': o_data['protocol'],
             'session_ssh': {'version': o_data['version']}
         }
 
